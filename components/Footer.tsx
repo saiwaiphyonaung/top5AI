@@ -1,11 +1,8 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { CATEGORIES, PROMPTS_CATEGORIES } from '../constants';
-import { useVisitorCount } from '../../hooks/useVisitorCount';
 
 const Footer: React.FC = () => {
-  const visitorCount = useVisitorCount();
-
   const creativeTools = CATEGORIES.filter(c => ['graphic-design', 'ai-writing', 'music-generation', 'video-generation'].includes(c.slug));
   const businessTools = CATEGORIES.filter(c => ['marketing-and-content', 'customer-support', 'sales-and-crm'].includes(c.slug));
 
@@ -66,11 +63,6 @@ const Footer: React.FC = () => {
         </div>
 
         <div className="mt-12 border-t border-[var(--color-border)] pt-8 text-center text-sm text-[var(--color-text-muted)]">
-          {visitorCount !== null && (
-            <p className="mb-2" aria-live="polite">
-              Total Visitors: {visitorCount.toLocaleString()}
-            </p>
-          )}
           &copy; {new Date().getFullYear()} Top 5 AI. All rights reserved.
         </div>
       </div>
