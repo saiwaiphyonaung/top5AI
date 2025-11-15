@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="index, follow">
+    <title>Top 5 AI - Your Guide to the Best AI Tools</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    <style>
+      :root {
+        --color-bg: #f9fafb; /* gray-50 */
+        --color-surface: #ffffff;
+        --color-border: #e5e7eb; /* gray-200 */
+        --color-text: #374151;   /* gray-700 */
+        --color-text-muted: #6b7280; /* gray-500 */
+        --color-heading: #111827; /* gray-900 */
+        --color-accent: #3772ff;
+        --color-surface-hover: #f3f4f6; /* gray-100 */
+
+        /* New banner gradient colors */
+        --color-banner-gradient-from: #3b82f6; /* blue-500 */
+        --color-banner-gradient-to: #4f46e5; /* indigo-600 */
+
+        /* Light Sidebar Theme */
+        --color-sidebar-bg: #f8f9fa;
+        --color-sidebar-text: #4b5563; /* gray-600 */
+        --color-sidebar-text-hover: #111827; /* gray-900 */
+        --color-sidebar-accent: #3772ff;
+        --color-sidebar-border: #e5e7eb; /* gray-200 */
+      }
+      
+      [data-theme='dark'] {
+        --color-bg: #111827; /* gray-900 */
+        --color-surface: #1f2937; /* gray-800 */
+        --color-border: #374151; /* gray-700 */
+        --color-text: #d1d5db;   /* gray-300 */
+        --color-text-muted: #9ca3af; /* gray-400 */
+        --color-heading: #f9fafb; /* gray-50 */
+        --color-accent: #60a5fa; /* blue-400 */
+        --color-surface-hover: #374151; /* gray-700 */
+
+        /* New banner gradient colors for dark theme */
+        --color-banner-gradient-from: #1d4ed8; /* blue-700 */
+        --color-banner-gradient-to: #3730a3; /* indigo-800 */
+        
+        /* Dark Sidebar Theme */
+        --color-sidebar-bg: #1f2937; /* gray-800 */
+        --color-sidebar-text: #9ca3af; /* gray-400 */
+        --color-sidebar-text-hover: #ffffff;
+        --color-sidebar-accent: #60a5fa; /* blue-400 */
+        --color-sidebar-border: #374151; /* gray-700 */
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        background-color: var(--color-bg);
+        color: var(--color-text);
+        font-family: 'Poppins', sans-serif;
+        transition: background-color 0.3s, color 0.3s;
+      }
+
+      h1, h2, h3, h4, h5, h6 {
+        font-family: 'Poppins', sans-serif;
+        color: var(--color-heading);
+        font-weight: 700;
+      }
+      
+      @keyframes slide {
+        from {
+          transform: translateX(0);
+        }
+        to {
+          transform: translateX(-50%);
+        }
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react-router-dom": "https://aistudiocdn.com/react-router-dom@^7.9.5",
+    "recharts": "https://aistudiocdn.com/recharts@^3.4.1"
+  }
+}
+</script>
+</head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
