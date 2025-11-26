@@ -1,6 +1,8 @@
+
 import React, { useState } from 'react';
 import type { AiTool, Review } from '../../types';
 import { useToolReviews } from '../../hooks/useToolReviews';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 const FlagIcon: React.FC<{ className?: string }> = ({ className }) => (
     <svg xmlns="http://www.w3.org/2000/svg" className={className || "w-5 h-5"} fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
@@ -31,6 +33,7 @@ const StarRatingDisplay: React.FC<{ rating: number; className?: string }> = ({ r
 
 
 const ReviewForm: React.FC<{ onSubmit: (data: { author: string, rating: number, comment: string }) => void }> = ({ onSubmit }) => {
+    const { t } = useLanguage();
     const [rating, setRating] = useState(0);
     const [hoverRating, setHoverRating] = useState(0);
     const [comment, setComment] = useState('');
@@ -56,9 +59,9 @@ const ReviewForm: React.FC<{ onSubmit: (data: { author: string, rating: number, 
 
     return (
         <form onSubmit={handleSubmit} className="space-y-4 p-4 border border-[var(--color-border)] rounded-lg bg-[var(--color-surface)]">
-            <h4 className="font-semibold text-md text-[var(--color-heading)]">Leave a Review</h4>
+            <h4 className="font-semibold text-md text-[var(--color-heading)]">{t('leaveReview')}</h4>
             <div>
-                <label className="block text-sm font-medium text-[var(--color-text)] mb-1">Your Name (Optional)</label>
+                <label className="block text-sm font-medium text-[var(--color-text)] mb-1">{t('yourName')}</label>
                 <input
                     type="text"
                     value={author}
@@ -68,7 +71,7 @@ const ReviewForm: React.FC<{ onSubmit: (data: { author: string, rating: number, 
                 />
             </div>
             <div>
-                <label className="block text-sm font-medium text-[var(--color-text)] mb-1">Rating</label>
+                <label className="block text-sm font-medium text-[var(--color-text)] mb-1">{t('rating')}</label>
                 <div className="flex items-center" onMouseLeave={() => setHoverRating(0)}>
                     {[...Array(5)].map((_, i) => (
                         <Star 
@@ -81,19 +84,19 @@ const ReviewForm: React.FC<{ onSubmit: (data: { author: string, rating: number, 
                 </div>
             </div>
             <div>
-                <label htmlFor="comment" className="block text-sm font-medium text-[var(--color-text)] mb-1">Comment</label>
+                <label htmlFor="comment" className="block text-sm font-medium text-[var(--color-text)] mb-1">{t('comment')}</label>
                 <textarea
                     id="comment"
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
                     rows={3}
-                    placeholder="Share your experience with this tool..."
+                    placeholder={t('shareExperience')}
                     className="w-full text-sm bg-[var(--color-surface)] border border-[var(--color-border)] rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-[var(--color-accent)]"
                 />
             </div>
             {error && <p className="text-sm text-red-600">{error}</p>}
             <button type="submit" className="w-full sm:w-auto text-center bg-[var(--color-accent)] text-white font-bold py-2 px-4 rounded-lg hover:opacity-90 transition-all text-sm">
-                Submit Review
+                {t('submitReview')}
             </button>
         </form>
     );
@@ -113,6 +116,7 @@ const ReviewItem: React.FC<{ review: Review }> = ({ review }) => (
 
 
 const AIToolDetails: React.FC<{ tool: AiTool }> = ({ tool }) => {
+  const { t } = useLanguage();
   const [activeTab, setActiveTab] = useState<'details' | 'reviews'>('details');
   const { reviews, addReview } = useToolReviews(tool.name);
 
@@ -149,13 +153,13 @@ Thank you!
                   onClick={() => setActiveTab('details')}
                   className={`py-2 px-4 text-sm font-semibold transition-colors -mb-px ${activeTab === 'details' ? 'text-[var(--color-accent)] border-b-2 border-[var(--color-accent)]' : 'text-[var(--color-text-muted)] hover:text-[var(--color-heading)]'}`}
                 >
-                  Details
+                  {t('details')}
                 </button>
                 <button 
                   onClick={() => setActiveTab('reviews')}
                   className={`py-2 px-4 text-sm font-semibold transition-colors -mb-px ${activeTab === 'reviews' ? 'text-[var(--color-accent)] border-b-2 border-[var(--color-accent)]' : 'text-[var(--color-text-muted)] hover:text-[var(--color-heading)]'}`}
                 >
-                  Reviews ({reviews.length})
+                  {t('reviews')} ({reviews.length})
                 </button>
             </div>
             
@@ -163,13 +167,13 @@ Thank you!
               <div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
                   <div>
-                    <h4 className="font-semibold text-lg text-green-700 mb-2">Pros</h4>
+                    <h4 className="font-semibold text-lg text-green-700 mb-2">{t('pros')}</h4>
                     <ul className="list-disc list-inside space-y-1.5 text-sm text-[var(--color-text)]">
                       {tool.pros.map((pro, i) => <li key={i}>{pro}</li>)}
                     </ul>
                   </div>
                   <div>
-                    <h4 className="font-semibold text-lg text-red-700 mb-2">Cons</h4>
+                    <h4 className="font-semibold text-lg text-red-700 mb-2">{t('cons')}</h4>
                     <ul className="list-disc list-inside space-y-1.5 text-sm text-[var(--color-text)]">
                       {tool.cons.map((con, i) => <li key={i}>{con}</li>)}
                     </ul>
@@ -178,7 +182,7 @@ Thank you!
 
                 {tool.pricingPlans && tool.pricingPlans.length > 0 && (
                   <div className="mt-8 pt-6 border-t border-[var(--color-border)]">
-                    <h4 className="font-semibold text-lg text-[var(--color-heading)] mb-4">Pricing Plans</h4>
+                    <h4 className="font-semibold text-lg text-[var(--color-heading)] mb-4">{t('pricingPlans')}</h4>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                       {tool.pricingPlans.map((plan, index) => (
                         <div key={index} className="border border-[var(--color-border)] rounded-lg p-4 bg-white flex flex-col hover:border-[var(--color-accent)]/50 transition-colors shadow-sm">
@@ -201,10 +205,10 @@ Thank you!
                         className="inline-flex items-center gap-2 text-sm text-[var(--color-text-muted)] hover:text-red-600 font-semibold transition-colors group"
                     >
                         <FlagIcon className="w-5 h-5 text-red-500/80 group-hover:text-red-600 transition-colors" />
-                        Report Incorrect Data
+                        {t('reportIncorrectData')}
                     </button>
                     <p className="text-xs text-[var(--color-text-muted)] mt-2">
-                        Help us keep our information accurate and up-to-date.
+                        {t('helpUsKeepAccurate')}
                     </p>
                 </div>
 
@@ -217,7 +221,7 @@ Thank you!
                   <ReviewForm onSubmit={addReview} />
                 </div>
                 <div className="space-y-4 max-h-80 overflow-y-auto pr-2">
-                  <h4 className="font-semibold text-md text-[var(--color-heading)] mb-2">User Reviews</h4>
+                  <h4 className="font-semibold text-md text-[var(--color-heading)] mb-2">{t('userReviews')}</h4>
                   {reviews.length > 0 ? (
                     <>
                       <div className="flex items-center gap-2 mb-4">
@@ -228,7 +232,7 @@ Thank you!
                       {reviews.map(review => <ReviewItem key={review.id} review={review} />)}
                     </>
                   ) : (
-                    <p className="text-sm text-[var(--color-text-muted)] text-center py-8">Be the first to leave a review!</p>
+                    <p className="text-sm text-[var(--color-text-muted)] text-center py-8">{t('noReviews')}</p>
                   )}
                 </div>
               </div>

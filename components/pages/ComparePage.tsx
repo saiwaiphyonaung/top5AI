@@ -1,8 +1,10 @@
+
 import React, { useState, useMemo } from 'react';
 import { useSeo } from '../../hooks/useSeo';
 import { CATEGORIES } from '../../constants';
 import type { AiTool, PricingPlan } from '../../types';
 import { useToolReviews, calculateDisplayScore } from '../../hooks/useToolReviews';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 const ToolScore: React.FC<{ tool: AiTool }> = ({ tool }) => {
     const { reviews } = useToolReviews(tool.name);
@@ -18,6 +20,7 @@ const ToolScore: React.FC<{ tool: AiTool }> = ({ tool }) => {
 };
 
 const ComparePage: React.FC = () => {
+  const { t } = useLanguage();
   const [selectedTools, setSelectedTools] = useState<(AiTool | null)[]>([null, null, null]);
 
   const allTools = useMemo(() => {
@@ -45,8 +48,8 @@ const ComparePage: React.FC = () => {
   };
   
   const activeTools = selectedTools.filter((t): t is AiTool => t !== null);
-  const title = activeTools.length > 1 ? `Compare: ${activeTools.map(t => t.name).join(' vs ')}` : 'Compare AI Tools';
-  const description = `Side-by-side comparison of top AI tools. Evaluate features, pricing, pros, and cons to find the best tool for your needs.`;
+  const title = activeTools.length > 1 ? `Compare: ${activeTools.map(t => t.name).join(' vs ')}` : t('compareTitle');
+  const description = t('compareDesc');
 
   useSeo({
     title: `${title} | Top 5 AI`,
@@ -55,25 +58,25 @@ const ComparePage: React.FC = () => {
   });
 
   const comparisonFields = [
-    { key: 'our_score', label: 'Our Score' },
-    { key: 'description', label: 'Description' },
-    { key: 'bestFor', label: 'Best For' },
-    { key: 'pricing', label: 'Pricing Model' },
-    { key: 'startingPrice', label: 'Starts From' },
-    { key: 'pricingPlans', label: 'Pricing Plans' },
-    { key: 'totalUsers', label: 'User Base' },
-    { key: 'pros', label: 'Pros' },
-    { key: 'cons', label: 'Cons' },
+    { key: 'our_score', label: t('ourScore') },
+    { key: 'description', label: t('description') },
+    { key: 'bestFor', label: t('bestFor') },
+    { key: 'pricing', label: t('pricingModel') },
+    { key: 'startingPrice', label: t('startsFrom') },
+    { key: 'pricingPlans', label: t('pricingPlans') },
+    { key: 'totalUsers', label: t('userBase') },
+    { key: 'pros', label: t('pros') },
+    { key: 'cons', label: t('cons') },
   ];
 
   return (
     <div className="space-y-12">
       <section className="text-center pt-8">
         <h1 className="text-4xl sm:text-5xl font-extrabold text-[var(--color-heading)]">
-          Compare AI Tools
+          {t('compareTitle')}
         </h1>
         <p className="mt-4 max-w-2xl mx-auto text-lg text-[var(--color-text)]">
-          Select up to 3 tools to see a side-by-side comparison of their features, pricing, and performance.
+          {t('compareDesc')}
         </p>
       </section>
 
@@ -82,7 +85,7 @@ const ComparePage: React.FC = () => {
           {[0, 1, 2].map(index => (
             <div key={index}>
               <label htmlFor={`tool-select-${index}`} className="block text-sm font-bold text-[var(--color-heading)] mb-2">
-                Tool {index + 1}
+                {t(`tool${index + 1}`)}
               </label>
               <select
                 id={`tool-select-${index}`}
@@ -90,7 +93,7 @@ const ComparePage: React.FC = () => {
                 onChange={e => handleSelectTool(index, e.target.value)}
                 className="w-full bg-[var(--color-bg)] border border-[var(--color-border)] rounded-lg p-3 focus:outline-none focus:ring-1 focus:ring-[var(--color-accent)] transition-colors"
               >
-                <option value="">-- Select a Tool --</option>
+                <option value="">{t('selectTool')}</option>
                 {groupedTools.map(group => (
                   <optgroup key={group.label} label={group.label}>
                     {group.options.map(tool => (
@@ -116,7 +119,7 @@ const ComparePage: React.FC = () => {
             <table className="min-w-full border-collapse border border-[var(--color-border)] bg-[var(--color-surface)] rounded-lg overflow-hidden shadow-sm">
               <thead className="bg-[var(--color-bg)] sticky top-0 z-10">
                 <tr>
-                  <th className="sticky left-0 bg-[var(--color-bg)] w-1/4 p-5 text-left text-sm font-bold text-[var(--color-heading)] border-r border-b border-[var(--color-border)] z-20">Feature</th>
+                  <th className="sticky left-0 bg-[var(--color-bg)] w-1/4 p-5 text-left text-sm font-bold text-[var(--color-heading)] border-r border-b border-[var(--color-border)] z-20">{t('feature')}</th>
                   {activeTools.map(tool => (
                     <th key={tool.name} className="p-5 text-center text-sm font-bold text-[var(--color-heading)] border-b border-[var(--color-border)] w-1/4">
                        <div className="flex flex-col items-center gap-2">
@@ -187,7 +190,7 @@ const ComparePage: React.FC = () => {
                                 rel="noopener noreferrer nofollow"
                                 className="block text-center bg-[var(--color-accent)] text-white font-bold py-2 px-4 rounded-lg hover:opacity-90 transition-all text-sm"
                             >
-                                Visit Site
+                                {t('visitSite')}
                             </a>
                         </td>
                     ))}
@@ -199,10 +202,10 @@ const ComparePage: React.FC = () => {
       ) : (
         <div className="text-center py-16 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-lg">
             <h2 className="text-xl font-semibold text-[var(--color-heading)]">
-              Select at least two tools to compare
+              {t('selectTwoTools')}
             </h2>
             <p className="text-[var(--color-text-muted)] mt-2">
-              Use the dropdowns above to choose the tools you want to evaluate.
+              {t('useDropdowns')}
             </p>
           </div>
       )}

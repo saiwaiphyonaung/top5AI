@@ -127,7 +127,7 @@ const Sidebar: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, o
                             icon={item.icon && React.cloneElement(item.icon, { className: 'w-5 h-5' })} 
                             onClose={handleClose}
                         >
-                            {item.name}
+                            {t(`${item.slug}_name`)}
                         </SidebarNavLink>
                     ))}
                     </CollapsibleSection>
@@ -142,7 +142,7 @@ const Sidebar: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, o
                             icon={item.icon && React.cloneElement(item.icon, { className: 'w-5 h-5' })} 
                             onClose={handleClose}
                         >
-                            {item.name}
+                            {t(`${item.slug}_name`)}
                         </SidebarNavLink>
                     ))}
                     </CollapsibleSection>
@@ -157,7 +157,7 @@ const Sidebar: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, o
                             icon={item.icon && React.cloneElement(item.icon, { className: 'w-5 h-5' })} 
                             onClose={handleClose}
                         >
-                            {item.name}
+                            {t(`${item.slug}_name`)}
                         </SidebarNavLink>
                     ))}
                     </CollapsibleSection>
@@ -172,7 +172,7 @@ const Sidebar: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, o
                                 icon={<SparklesIcon className="w-5 h-5 text-purple-500"/>}
                                 onClose={handleClose}
                             >
-                                {item.name}
+                                {t(`${item.slug}_name`)}
                             </SidebarNavLink>
                         ))}
                     </CollapsibleSection>

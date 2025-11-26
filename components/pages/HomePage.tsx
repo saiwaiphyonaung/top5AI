@@ -8,6 +8,7 @@ import useCountUp from '../../hooks/useCountUp';
 import type { AiTool } from '../../types';
 import CompareToolsBanner from '../ui/CompareToolsBanner';
 import ContactForm from '../ui/ContactForm';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 // Icons for About, Privacy, Terms
 const InfoIcon: React.FC = () => (
@@ -37,6 +38,7 @@ const TrophyIcon: React.FC = () => (
 );
 
 const HomePage: React.FC = () => {
+  const { t } = useLanguage();
   const usersCardRef = useRef<HTMLDivElement>(null);
   const businessesCardRef = useRef<HTMLDivElement>(null);
 
@@ -95,10 +97,10 @@ const HomePage: React.FC = () => {
       {/* Hero Section */}
       <section className="text-center pt-8">
         <h1 className="text-4xl sm:text-5xl font-extrabold text-[var(--color-heading)] leading-tight">
-          Find the <span className="text-[var(--color-accent)]">Best AI Tools</span>
+          {t('heroTitle')} <span className="text-[var(--color-accent)]">{t('heroTitleHighlight')}</span>
         </h1>
         <p className="mt-4 max-w-2xl mx-auto text-lg text-[var(--color-text)]">
-          We rank, review, and compare the top AI solutions to supercharge your creativity and productivity. Your definitive guide to the world of artificial intelligence.
+          {t('heroDescription')}
         </p>
       </section>
 
@@ -110,7 +112,7 @@ const HomePage: React.FC = () => {
             <p className="text-5xl font-extrabold text-[var(--color-heading)] mt-3">
               {usersCount}M+
             </p>
-            <p className="text-lg text-[var(--color-text-muted)] mt-1">Users Empowered by AI</p>
+            <p className="text-lg text-[var(--color-text-muted)] mt-1">{t('usersEmpowered')}</p>
           </div>
           <div className="w-full md:w-px h-px md:h-20 bg-[var(--color-border)]"></div>
           <div ref={businessesCardRef} className="flex flex-col items-center text-center">
@@ -118,7 +120,7 @@ const HomePage: React.FC = () => {
             <p className="text-5xl font-extrabold text-[var(--color-heading)] mt-3">
               #{businessesCount}
             </p>
-            <p className="text-lg text-[var(--color-text-muted)] mt-1">Trusted Resource for AI Reviews</p>
+            <p className="text-lg text-[var(--color-text-muted)] mt-1">{t('trustedResource')}</p>
           </div>
         </div>
       </section>
@@ -128,9 +130,9 @@ const HomePage: React.FC = () => {
 
       {/* New Release AI Tools */}
       <section>
-        <h2 className="text-3xl font-bold text-center text-[var(--color-heading)]">New Release AI Tools</h2>
+        <h2 className="text-3xl font-bold text-center text-[var(--color-heading)]">{t('newReleaseTitle')}</h2>
         <p className="mt-3 max-w-xl mx-auto text-center text-[var(--color-text)]">
-          Check out the latest and most exciting AI tools hitting the market. Stay ahead of the curve with these cutting-edge solutions.
+          {t('newReleaseDesc')}
         </p>
         <div className="mt-12 space-y-6">
           {newReleaseTools.map(tool => (
@@ -141,9 +143,9 @@ const HomePage: React.FC = () => {
 
       {/* Categories Section */}
       <section id="categories">
-        <h2 className="text-3xl font-bold text-center text-[var(--color-heading)]">Explore AI by Category</h2>
+        <h2 className="text-3xl font-bold text-center text-[var(--color-heading)]">{t('exploreCategoryTitle')}</h2>
         <p className="mt-3 max-w-xl mx-auto text-center text-[var(--color-text)]">
-          Whether you're a creative, a developer, or a business professional, find the perfect AI tool for your specific needs.
+          {t('exploreCategoryDesc')}
         </p>
         <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {CATEGORIES.slice(0, 9).map(category => (
@@ -154,10 +156,10 @@ const HomePage: React.FC = () => {
             >
               <div className="flex items-center gap-4">
                 {category.icon && React.cloneElement(category.icon, { className: 'w-8 h-8 text-[var(--color-accent)]' })}
-                <h3 className="text-lg font-bold text-[var(--color-heading)]">{category.name}</h3>
+                <h3 className="text-lg font-bold text-[var(--color-heading)]">{t(`${category.slug}_name`)}</h3>
               </div>
               <p className="text-sm text-[var(--color-text)] mt-3">
-                {category.metaDescription.substring(0, 100)}...
+                {t(`${category.slug}_desc`)}
               </p>
             </NavLink>
           ))}
@@ -168,18 +170,18 @@ const HomePage: React.FC = () => {
       <section className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center" id="about">
           <div className="bg-[var(--color-surface)] p-8 rounded-xl shadow-sm border border-[var(--color-border)]">
               <InfoIcon />
-              <h3 className="text-xl font-bold mt-4">About Us</h3>
-              <p className="mt-2 text-sm">We are a dedicated team of AI enthusiasts and experts committed to providing clear, unbiased, and practical reviews of AI tools.</p>
+              <h3 className="text-xl font-bold mt-4">{t('aboutUsTitle')}</h3>
+              <p className="mt-2 text-sm">{t('aboutUsDesc')}</p>
           </div>
           <div className="bg-[var(--color-surface)] p-8 rounded-xl shadow-sm border border-[var(--color-border)]" id="privacy">
               <ShieldIcon />
-              <h3 className="text-xl font-bold mt-4">Privacy First</h3>
-              <p className="mt-2 text-sm">Your trust is paramount. We are committed to protecting your privacy and being transparent about how we operate.</p>
+              <h3 className="text-xl font-bold mt-4">{t('privacyTitle')}</h3>
+              <p className="mt-2 text-sm">{t('privacyDesc')}</p>
           </div>
           <div className="bg-[var(--color-surface)] p-8 rounded-xl shadow-sm border border-[var(--color-border)]" id="terms">
               <DocumentIcon />
-              <h3 className="text-xl font-bold mt-4">Terms of Service</h3>
-              <p className="mt-2 text-sm">By using our site, you agree to our terms, which ensure a fair and reliable experience for our entire community.</p>
+              <h3 className="text-xl font-bold mt-4">{t('termsTitle')}</h3>
+              <p className="mt-2 text-sm">{t('termsDesc')}</p>
           </div>
       </section>
       
@@ -187,9 +189,9 @@ const HomePage: React.FC = () => {
       <section id="contact-us" className="max-w-4xl mx-auto">
         <div className="bg-[var(--color-surface)] p-8 sm:p-12 rounded-xl shadow-sm border border-[var(--color-border)]">
             <div className="text-center mb-10">
-                <h2 className="text-3xl font-bold text-[var(--color-heading)]">Get in Touch</h2>
+                <h2 className="text-3xl font-bold text-[var(--color-heading)]">{t('getInTouchTitle')}</h2>
                 <p className="mt-3 max-w-xl mx-auto text-[var(--color-text)]">
-                    Have questions, feedback, or suggestions? We'd love to hear from you. Drop us a message and we'll get back to you as soon as possible.
+                    {t('getInTouchDesc')}
                 </p>
             </div>
             <ContactForm />

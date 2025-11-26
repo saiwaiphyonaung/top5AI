@@ -1,4 +1,6 @@
+
 import React, { useState } from 'react';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 const CheckIcon: React.FC<{ className?: string }> = ({ className }) => (
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className || "w-5 h-5"}>
@@ -14,6 +16,7 @@ const PaperAirplaneIcon: React.FC<{ className?: string }> = ({ className }) => (
 
 
 const ContactForm: React.FC = () => {
+    const { t } = useLanguage();
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
@@ -23,7 +26,7 @@ const ContactForm: React.FC = () => {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (!name || !email || !message) {
-            setError('Please fill out all fields.');
+            setError(t('fillAllFields'));
             return;
         }
         setError('');
@@ -54,7 +57,7 @@ const ContactForm: React.FC = () => {
         <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
-                    <label htmlFor="name" className="block text-sm font-semibold text-[var(--color-heading)] mb-2">Full Name</label>
+                    <label htmlFor="name" className="block text-sm font-semibold text-[var(--color-heading)] mb-2">{t('fullName')}</label>
                     <input
                         type="text"
                         id="name"
@@ -66,7 +69,7 @@ const ContactForm: React.FC = () => {
                     />
                 </div>
                 <div>
-                    <label htmlFor="email" className="block text-sm font-semibold text-[var(--color-heading)] mb-2">Email Address</label>
+                    <label htmlFor="email" className="block text-sm font-semibold text-[var(--color-heading)] mb-2">{t('emailAddress')}</label>
                     <input
                         type="email"
                         id="email"
@@ -79,7 +82,7 @@ const ContactForm: React.FC = () => {
                 </div>
             </div>
             <div>
-                <label htmlFor="message" className="block text-sm font-semibold text-[var(--color-heading)] mb-2">Message</label>
+                <label htmlFor="message" className="block text-sm font-semibold text-[var(--color-heading)] mb-2">{t('message')}</label>
                 <textarea
                     id="message"
                     rows={5}
@@ -104,12 +107,12 @@ const ContactForm: React.FC = () => {
                     {status === 'sent' ? (
                         <>
                             <CheckIcon className="w-6 h-6"/>
-                            <span>Message Sent!</span>
+                            <span>{t('messageSent')}</span>
                         </>
                     ) : (
                         <>
                             <PaperAirplaneIcon className="w-5 h-5"/>
-                            <span>Send Message</span>
+                            <span>{t('sendMessage')}</span>
                         </>
                     )}
                 </button>

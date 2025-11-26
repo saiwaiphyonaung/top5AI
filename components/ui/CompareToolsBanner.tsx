@@ -1,5 +1,7 @@
+
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 const Versus: React.FC = () => (
     <div className="flex items-center justify-center w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 text-white font-bold text-sm shadow-md">
@@ -27,6 +29,8 @@ const ToolIcon: React.FC<{ name: string; url: string }> = ({ name, url }) => {
 };
 
 const CompareToolsBanner: React.FC = () => {
+  const { t } = useLanguage();
+
   return (
     <section 
         className="rounded-2xl shadow-xl overflow-hidden text-white"
@@ -36,16 +40,16 @@ const CompareToolsBanner: React.FC = () => {
             {/* Text Content */}
             <div className="lg:w-1/2 text-center lg:text-left">
                 <h2 className="text-3xl sm:text-4xl font-extrabold leading-tight">
-                    Compare Top AI Tools
+                    {t('compareBannerTitle')}
                 </h2>
                 <p className="mt-4 max-w-lg mx-auto lg:mx-0 text-lg text-white/90">
-                    Undecided? Use our comparison tool to evaluate features, pricing, and performance side-by-side. Make an informed decision, faster.
+                    {t('compareBannerDesc')}
                 </p>
                 <NavLink 
                     to="/compare"
                     className="mt-8 inline-block bg-white text-[var(--color-accent)] font-bold py-3 px-8 rounded-lg shadow-md hover:bg-gray-100 transition-all duration-300 transform hover:scale-105"
                 >
-                    Compare Now
+                    {t('compareNow')}
                 </NavLink>
             </div>
             
