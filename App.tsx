@@ -9,6 +9,7 @@ import PromptsPage from './components/pages/PromptsPage';
 import SearchResultsPage from './components/pages/SearchResultsPage';
 import ComparePage from './components/pages/ComparePage';
 import MostPopularPage from './components/pages/MostPopularPage';
+import { LanguageProvider } from './contexts/LanguageContext';
 
 type Theme = 'light' | 'dark';
 
@@ -36,29 +37,31 @@ const App: React.FC = () => {
   };
 
   return (
-    <HashRouter>
-      <div className="min-h-screen bg-[var(--color-bg)] text-[var(--color-text)]">
-        <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
-        <div className="flex flex-col flex-1 lg:ml-64">
-          <Header
-            onMenuClick={() => setIsSidebarOpen(true)}
-            theme={theme}
-            toggleTheme={toggleTheme}
-          />
-          <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/search" element={<SearchResultsPage />} />
-              <Route path="/compare" element={<ComparePage />} />
-              <Route path="/most-popular" element={<MostPopularPage />} />
-              <Route path="/:categorySlug" element={<CategoryPage />} />
-              <Route path="/prompts/:promptCategorySlug" element={<PromptsPage />} />
-            </Routes>
-          </main>
-          <Footer />
+    <LanguageProvider>
+      <HashRouter>
+        <div className="min-h-screen bg-[var(--color-bg)] text-[var(--color-text)]">
+          <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
+          <div className="flex flex-col flex-1 lg:ml-64">
+            <Header
+              onMenuClick={() => setIsSidebarOpen(true)}
+              theme={theme}
+              toggleTheme={toggleTheme}
+            />
+            <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/search" element={<SearchResultsPage />} />
+                <Route path="/compare" element={<ComparePage />} />
+                <Route path="/most-popular" element={<MostPopularPage />} />
+                <Route path="/:categorySlug" element={<CategoryPage />} />
+                <Route path="/prompts/:promptCategorySlug" element={<PromptsPage />} />
+              </Routes>
+            </main>
+            <Footer />
+          </div>
         </div>
-      </div>
-    </HashRouter>
+      </HashRouter>
+    </LanguageProvider>
   );
 };
 

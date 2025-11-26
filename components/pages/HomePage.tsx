@@ -1,9 +1,4 @@
 
-
-
-
-
-
 import React, { useMemo, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSeo } from '../../hooks/useSeo';
@@ -99,7 +94,7 @@ const HomePage: React.FC = () => {
     <div className="space-y-24 md:space-y-32">
       {/* Hero Section */}
       <section className="text-center pt-8">
-        <h1 className="text-4xl sm:text-6xl font-extrabold text-[var(--color-heading)] leading-tight">
+        <h1 className="text-4xl sm:text-5xl font-extrabold text-[var(--color-heading)] leading-tight">
           Find the <span className="text-[var(--color-accent)]">Best AI Tools</span>
         </h1>
         <p className="mt-4 max-w-2xl mx-auto text-lg text-[var(--color-text)]">
@@ -128,6 +123,9 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
+      {/* Compare Tools Banner - Moved to top as requested */}
+      <CompareToolsBanner />
+
       {/* New Release AI Tools */}
       <section>
         <h2 className="text-3xl font-bold text-center text-[var(--color-heading)]">New Release AI Tools</h2>
@@ -140,9 +138,6 @@ const HomePage: React.FC = () => {
           ))}
         </div>
       </section>
-
-      {/* Compare Tools Banner */}
-      <CompareToolsBanner />
 
       {/* Categories Section */}
       <section id="categories">

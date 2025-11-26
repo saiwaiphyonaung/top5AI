@@ -1,5 +1,7 @@
-import React from 'react';
+
+import React, { useState, useRef, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const SunIcon: React.FC = () => (
     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -11,6 +13,12 @@ const MoonIcon: React.FC = () => (
     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
     </svg>
+);
+
+const GlobeIcon: React.FC = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2h1a2 2 0 002-2v-1a2 2 0 012-2h1.945M7.7 9a9 9 0 018.6 0M12 21a9 9 0 01-9-9h18a9 9 0 01-9 9z" />
+  </svg>
 );
 
 interface ThemeToggleProps {
@@ -29,6 +37,62 @@ const ThemeToggle: React.FC<ThemeToggleProps> = ({ theme, toggleTheme }) => {
     </button>
   );
 };
+
+const LanguageSelector: React.FC = () => {
+    const { language, setLanguage, t } = useLanguage();
+    const [isOpen, setIsOpen] = useState(false);
+    const dropdownRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setIsOpen(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
+
+    const languages = [
+        { code: 'en', label: 'English', flag: '🇺🇸' },
+        { code: 'my', label: 'Myanmar', flag: '🇲🇲' },
+    ];
+
+    const currentLang = languages.find(l => l.code === language) || languages[0];
+
+    return (
+        <div className="relative" ref={dropdownRef}>
+            <button
+                onClick={() => setIsOpen(!isOpen)}
+                className="flex items-center gap-2 p-2 rounded-full text-[var(--color-text-muted)] hover:bg-[var(--color-surface-hover)] transition-colors text-sm font-medium"
+                aria-label={t('selectLanguage')}
+            >
+                <GlobeIcon />
+                <span className="hidden sm:inline uppercase">{currentLang.code}</span>
+            </button>
+            {isOpen && (
+                <div className="absolute right-0 mt-2 w-40 bg-[var(--color-surface)] rounded-md shadow-lg ring-1 ring-black ring-opacity-5 py-1 z-50">
+                    {languages.map((lang) => (
+                        <button
+                            key={lang.code}
+                            onClick={() => {
+                                setLanguage(lang.code as any);
+                                setIsOpen(false);
+                            }}
+                            className={`flex w-full items-center gap-3 px-4 py-2 text-sm hover:bg-[var(--color-surface-hover)] transition-colors text-left ${
+                                language === lang.code ? 'text-[var(--color-accent)] font-semibold' : 'text-[var(--color-text)]'
+                            }`}
+                        >
+                            <span className="text-lg">{lang.flag}</span>
+                            <span>{lang.label}</span>
+                        </button>
+                    ))}
+                </div>
+            )}
+        </div>
+    );
+};
+
 
 const Logo = () => (
   <NavLink to="/" className="flex items-center gap-2" aria-label="Top 5 AI - Home">
@@ -51,17 +115,18 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ onMenuClick, theme, toggleTheme }) => {
+  const { t } = useLanguage();
   const navLinkClass = "text-sm font-medium text-[var(--color-text-muted)] hover:text-[var(--color-accent)] transition-colors";
-  const activeNavLinkClass = "text-[var(--color-accent)]";
+  const activeNavLinkClass = "text-[var(--color-accent)] font-semibold";
 
   return (
-    <header className="sticky top-0 bg-[var(--color-surface)]/80 backdrop-blur-sm border-b border-[var(--color-border)] z-30">
+    <header className="sticky top-0 bg-[var(--color-surface)]/90 backdrop-blur-md border-b border-[var(--color-border)] z-30 transition-all duration-300">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center gap-4">
             <button
               onClick={onMenuClick}
-              className="lg:hidden inline-flex items-center justify-center p-2 rounded-md text-[var(--color-text-muted)] hover:text-[var(--color-accent)] focus:outline-none"
+              className="lg:hidden inline-flex items-center justify-center p-2 rounded-md text-[var(--color-text-muted)] hover:text-[var(--color-accent)] focus:outline-none transition-colors"
               aria-controls="sidebar"
             >
               <span className="sr-only">Open sidebar</span>
@@ -72,16 +137,29 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick, theme, toggleTheme }) => {
             <Logo />
           </div>
 
-          <nav className="hidden lg:flex items-center space-x-8">
+          <nav className="hidden lg:flex items-center gap-6">
             <NavLink to="/most-popular" className={({ isActive }) => `${navLinkClass} ${isActive ? activeNavLinkClass : ''}`}>
-              Most Popular
+              {t('mostPopular')}
             </NavLink>
-            <NavLink to="/compare" className={({ isActive }) => `${navLinkClass} ${isActive ? activeNavLinkClass : ''}`}>
-              Compare Tools
+            <NavLink 
+                to="/compare" 
+                className={({ isActive }) => `
+                    group relative flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-0.5
+                    ${isActive 
+                        ? 'bg-gradient-to-r from-[var(--color-banner-gradient-from)] to-[var(--color-banner-gradient-to)] text-white ring-4 ring-[var(--color-accent)]/20' 
+                        : 'bg-gradient-to-r from-[var(--color-banner-gradient-from)] to-[var(--color-banner-gradient-to)] text-white hover:opacity-90'
+                    }
+                `}
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
+                </svg>
+                <span>{t('compareTools')}</span>
             </NavLink>
           </nav>
 
           <div className="flex items-center gap-2">
+            <LanguageSelector />
             <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
           </div>
         </div>

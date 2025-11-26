@@ -1,8 +1,10 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { CATEGORIES, PROMPTS_CATEGORIES } from '../constants';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const Footer: React.FC = () => {
+  const { t } = useLanguage();
   const creativeTools = CATEGORIES.filter(c => ['graphic-design', 'ai-writing', 'music-generation', 'video-generation'].includes(c.slug));
   const businessTools = CATEGORIES.filter(c => ['marketing-and-content', 'customer-support', 'sales-and-crm'].includes(c.slug));
 
@@ -20,7 +22,7 @@ const Footer: React.FC = () => {
           </div>
 
           <div>
-            <h4 className="font-semibold text-[var(--color-heading)] mb-4">Creative Tools</h4>
+            <h4 className="font-semibold text-[var(--color-heading)] mb-4">{t('creativeTools')}</h4>
             <ul className="space-y-2">
               {creativeTools.map(cat => (
                 <li key={cat.slug}>
@@ -31,7 +33,7 @@ const Footer: React.FC = () => {
           </div>
           
           <div>
-            <h4 className="font-semibold text-[var(--color-heading)] mb-4">Business Tools</h4>
+            <h4 className="font-semibold text-[var(--color-heading)] mb-4">{t('businessTools')}</h4>
             <ul className="space-y-2">
               {businessTools.map(cat => (
                 <li key={cat.slug}>
@@ -42,22 +44,22 @@ const Footer: React.FC = () => {
           </div>
 
           <div>
-             <h4 className="font-semibold text-[var(--color-heading)] mb-4">Popular</h4>
+             <h4 className="font-semibold text-[var(--color-heading)] mb-4">{t('popular')}</h4>
              <ul className="space-y-2">
-                <li><NavLink to="/most-popular" className="text-sm text-[var(--color-text)] hover:text-[var(--color-accent)] transition-colors">Most Popular Tools</NavLink></li>
+                <li><NavLink to="/most-popular" className="text-sm text-[var(--color-text)] hover:text-[var(--color-accent)] transition-colors">{t('mostPopular')}</NavLink></li>
                 {PROMPTS_CATEGORIES.map(cat => (
-                    <li key={cat.slug}><NavLink to={`/prompts/${cat.slug}`} className="text-sm text-[var(--color-text)] hover:text-[var(--color-accent)] transition-colors">{cat.name} Prompts</NavLink></li>
+                    <li key={cat.slug}><NavLink to={`/prompts/${cat.slug}`} className="text-sm text-[var(--color-text)] hover:text-[var(--color-accent)] transition-colors">{cat.name}</NavLink></li>
                 ))}
-                <li><NavLink to="/compare" className="text-sm text-[var(--color-text)] hover:text-[var(--color-accent)] transition-colors">Compare Tools</NavLink></li>
+                <li><NavLink to="/compare" className="text-sm text-[var(--color-text)] hover:text-[var(--color-accent)] transition-colors">{t('compareTools')}</NavLink></li>
              </ul>
           </div>
           
           <div>
-             <h4 className="font-semibold text-[var(--color-heading)] mb-4">Company</h4>
+             <h4 className="font-semibold text-[var(--color-heading)] mb-4">{t('company')}</h4>
              <ul className="space-y-2">
-                <li><NavLink to="/#about" className="text-sm text-[var(--color-text)] hover:text-[var(--color-accent)] transition-colors">About Us</NavLink></li>
-                <li><NavLink to="/#privacy" className="text-sm text-[var(--color-text)] hover:text-[var(--color-accent)] transition-colors">Privacy Policy</NavLink></li>
-                <li><NavLink to="/#terms" className="text-sm text-[var(--color-text)] hover:text-[var(--color-accent)] transition-colors">Terms of Service</NavLink></li>
+                <li><NavLink to="/#about" className="text-sm text-[var(--color-text)] hover:text-[var(--color-accent)] transition-colors">{t('aboutUs')}</NavLink></li>
+                <li><NavLink to="/#privacy" className="text-sm text-[var(--color-text)] hover:text-[var(--color-accent)] transition-colors">{t('privacyPolicy')}</NavLink></li>
+                <li><NavLink to="/#terms" className="text-sm text-[var(--color-text)] hover:text-[var(--color-accent)] transition-colors">{t('termsOfService')}</NavLink></li>
              </ul>
           </div>
         </div>
