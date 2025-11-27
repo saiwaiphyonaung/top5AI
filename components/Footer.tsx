@@ -65,7 +65,6 @@ const Footer: React.FC = () => {
         </div>
 
         <div className="mt-12 border-t border-[var(--color-border)] pt-8">
-          <div id="container-a35953df066f73749e7309873c14eabe" className="flex justify-center mb-8"></div>
           <div className="text-center text-sm text-[var(--color-text-muted)]">
             &copy; {new Date().getFullYear()} Top 5 AI. All rights reserved.
           </div>
